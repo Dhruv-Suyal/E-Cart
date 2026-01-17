@@ -15,6 +15,10 @@
   height: 60px;
 }
 
+.orders-link.active{
+  text-decoration: underline;
+}
+
 .header .left-section {
   width: 208px;
 }

@@ -1,38 +1,42 @@
 import './Header.css'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router'
+import whiteLogoImage from '../assets/images/logo-white.png'
+import mobileLogoWhite from '../assets/images/mobile-logo-white.png'
+import searchIcon from '../assets/images/icons/search-icon.png'
+import cartIcon from '../assets/images/icons/cart-icon.png'
 
 export function Header(){
     return (
         <>
-             <div class="header">
-                <div class="left-section">
-                <Link to="/" class="header-link">
-                    <img class="logo"
-                    src="images/logo-white.png" />
-                    <img class="mobile-logo"
-                    src="images/mobile-logo-white.png" />
-                </Link>
+             <div className="header">
+                <div className="left-section">
+                <NavLink to="/" className="header-link">
+                    <img className="logo"
+                    src={whiteLogoImage} />
+                    <img className="mobile-logo"
+                    src={mobileLogoWhite} />
+                </NavLink>
                 </div>
 
-                <div class="middle-section">
-                <input class="search-bar" type="text" placeholder="Search" />
+                <div className="middle-section">
+                <input className="search-bar" type="text" placeholder="Search" />
 
-                <button class="search-button">
-                    <img class="search-icon" src="images/icons/search-icon.png" />
+                <button className="search-button">
+                    <img className="search-icon" src={searchIcon} />
                 </button>
                 </div>
 
-                <div class="right-section">
-                <Link class="orders-link header-link" to="orders">
+                <div className="right-section">
+                <NavLink className="orders-link header-link" to="/orders">
 
-                    <span class="orders-text">Orders</span>
-                </Link>
+                    <span className="orders-text">Orders</span>
+                </NavLink>
 
-                <Link class="cart-link header-link" to="/checkout">
-                    <img class="cart-icon" src="images/icons/cart-icon.png" />
-                    <div class="cart-quantity">3</div>
-                    <div class="cart-text">Cart</div>
-                </Link>
+                <NavLink className="cart-link header-link" to="/checkout">
+                    <img className="cart-icon" src={cartIcon} />
+                    <div className="cart-quantity">3</div>
+                    <div className="cart-text">Cart</div>
+                </NavLink>
                 </div>
             </div>
         </>
