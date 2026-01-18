@@ -1,12 +1,23 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import './Home-page.css'
 import { Header } from '../components/Header'
-import { products } from '../../data/products'
 import checkMarkPng from '../assets/images/icons/checkmark.png'
-export function HomePage() {
+
+export function HomePage({cart}) {
+  const [products, setProducts] = useState([]);
+  
+  useEffect(()=>{
+    axios.get('/api/products')
+      .then((Response)=>{
+        setProducts(Response.data);
+    })
+  }, [])
+  
   return (
     <>
       <link rel="icon" href="home-favicon.png" />
-      <Header />
+      <Header cart={cart} />
 
       <div className="home-page">
         <div className="products-grid">
