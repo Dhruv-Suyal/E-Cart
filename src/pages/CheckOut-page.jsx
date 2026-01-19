@@ -85,7 +85,10 @@ export function Checkout({ cart, loadCart }) {
                           <span className="update-quantity-link link-primary">
                             Update
                           </span>
-                          <span className="delete-quantity-link link-primary">
+                          <span className="delete-quantity-link link-primary" onClick={async ()=>{
+                            await axios.delete(`/api/cart-items/${cartItem.productId}`);
+                            await loadCart();
+                          }}>
                             Delete
                           </span>
                         </div>
