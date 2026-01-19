@@ -1,6 +1,7 @@
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import './checkout-header.css'
 import './CheckOut-page.css'
 import logoPng from '../assets/images/logo.png'
@@ -9,6 +10,7 @@ import checkoutLockIcon from '../assets/images/icons/checkout-lock-icon.png'
 export function Checkout({ cart, loadCart }) {
   const [deliveryOption, setDeliveryOption] = useState([]);
   const [paymentSummary, setPaymentSummary] = useState(null);
+  const navigate = useNavigate();
 
   let totalQuantity = 0;
   cart.forEach((cartItem) => {
@@ -164,7 +166,11 @@ export function Checkout({ cart, loadCart }) {
               <div className="payment-summary-money">${(paymentSummary.totalCostCents /100).toFixed(2)}</div>
             </div>
 
-            <button className="place-order-button button-primary">
+            <button className="place-order-button button-primary" onClick={async ()=>{
+              await axios.post('/api/orders');
+              await loadCart();
+              navigate('/orders');
+            }}>
               Place your order
             </button>
               </>
