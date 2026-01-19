@@ -65,7 +65,7 @@ export function Tracking({cart}){
           Quantity: {orderProduct.product.quantity}
         </div>
 
-        <img className="product-image" src={orderProduct.product.image} />
+        <img className="product-image" src={`/${orderProduct.product.image}`} />
 
         <div className="progress-labels-container">
           <div className={`progress-label ${isPreparing && 'current-status'}`}>
