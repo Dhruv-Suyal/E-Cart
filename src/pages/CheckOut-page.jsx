@@ -6,7 +6,7 @@ import './CheckOut-page.css'
 import logoPng from '../assets/images/logo.png'
 import checkoutLockIcon from '../assets/images/icons/checkout-lock-icon.png'
 
-export function Checkout({ cart }) {
+export function Checkout({ cart, loadCart }) {
   const [deliveryOption, setDeliveryOption] = useState([]);
   const [paymentSummary, setPaymentSummary] = useState(null);
 
@@ -24,7 +24,7 @@ export function Checkout({ cart }) {
     }
     checkOutData();
 
-  }, [])
+  }, [cart])
   
   return (
     <>
@@ -98,7 +98,12 @@ export function Checkout({ cart }) {
                         {
                           deliveryOption.map((deliveryOption) => {
                             return (
-                              <div key={deliveryOption.id} className="delivery-option">
+                              <div key={deliveryOption.id} className="delivery-option" onClick={async ()=>{
+                                await axios.put(`/api/cart-items/${cartItem.productId}`, {
+                                  deliveryOptionId:deliveryOption.id
+                                })
+                                await loadCart();
+                              }}>
                                 <input type="radio" checked={deliveryOption.id === cartItem.deliveryOptionId}
                                   className="delivery-option-input"
                                   name={`delivery-option-${cartItem.productId}`} />
