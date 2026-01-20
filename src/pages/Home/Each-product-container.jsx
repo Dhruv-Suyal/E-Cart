@@ -4,8 +4,16 @@ import checkMarkPng from '../../assets/images/icons/checkmark.png'
 
 export function EachProductContainer({product, loadCart}){
      const [quantity, setQuantity] = useState(1);
+     let [IsAddedToCart, setIsAddedToCart] = useState(false);
+
+    if(IsAddedToCart){
+      setTimeout(()=>{
+        setIsAddedToCart(false);
+     }, 2000);
+    }
+
     return (
-        <div key={product.id} className="product-container">
+        <div className="product-container">
                   <div className="product-image-container">
                     <img className="product-image"
                       src={product.image} />
@@ -46,7 +54,7 @@ export function EachProductContainer({product, loadCart}){
 
                   <div className="product-spacer"></div>
 
-                  <div className="added-to-cart">
+                  <div className="added-to-cart" style={{opacity: IsAddedToCart ? 1 : 0}}>
                     <img src={checkMarkPng} />
                     Added
                   </div>
@@ -57,7 +65,7 @@ export function EachProductContainer({product, loadCart}){
                       quantity: quantity
                     })
                     await loadCart();
-
+                    setIsAddedToCart(true);
                   }} className="add-to-cart-button button-primary">
                     Add to Cart
                   </button>

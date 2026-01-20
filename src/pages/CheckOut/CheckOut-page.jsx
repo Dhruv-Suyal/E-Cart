@@ -1,11 +1,11 @@
 import axios from 'axios'
-import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { EachCartItem } from './cart-item-container'
 import './checkout-header.css'
 import './CheckOut-page.css'
-import logoPng from '../assets/images/logo.png'
-import checkoutLockIcon from '../assets/images/icons/checkout-lock-icon.png'
+import logoPng from '../../assets/images/logo.png'
+import checkoutLockIcon from '../../assets/images/icons/checkout-lock-icon.png'
 
 export function Checkout({ cart, loadCart }) {
   const [deliveryOption, setDeliveryOption] = useState([]);
@@ -17,10 +17,16 @@ export function Checkout({ cart, loadCart }) {
     totalQuantity = totalQuantity + cartItem.quantity
   });
 
-  useEffect(() => {
+  useEffect(()=>{
     const checkOutData = async ()=>{
       const Response = await  axios.get('/api/delivery-options?expand=estimatedDeliveryTime');
       setDeliveryOption(Response.data);
+    }
+    checkOutData();
+  }, []);
+
+  useEffect(() => {
+    const checkOutData = async ()=>{
       const res = await axios.get('/api/payment-summary');
       setPaymentSummary(res.data);
     }
@@ -64,69 +70,7 @@ export function Checkout({ cart, loadCart }) {
                   return deliveryOption.id === cartItem.deliveryOptionId
                 })
                 return (
-                  <div key={cartItem.id} className="cart-item-container">
-                    <div className="delivery-date">
-                      Delivery date: {dayjs(selectedDeliveryOption.estimatedDeliveryTimeMs).format('dddd, MMMM D')}
-                    </div>
-
-                    <div className="cart-item-details-grid">
-                      <img className="product-image"
-                        src={cartItem.product.image} />
-
-                      <div className="cart-item-details">
-                        <div className="product-name">
-                          {cartItem.product.name}
-                        </div>
-                        <div className="product-price">
-                          ${(cartItem.product.priceCents / 100).toFixed(2)}
-                        </div>
-                        <div className="product-quantity">
-                          <span>
-                            Quantity: <span className="quantity-label">{cartItem.quantity}</span>
-                          </span>
-                          <span className="update-quantity-link link-primary">
-                            Update
-                          </span>
-                          <span className="delete-quantity-link link-primary" onClick={async ()=>{
-                            await axios.delete(`/api/cart-items/${cartItem.productId}`);
-                            await loadCart();
-                          }}>
-                            Delete
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="delivery-options">
-                        <div className="delivery-options-title">
-                          Choose a delivery option:
-                        </div>
-                        {
-                          deliveryOption.map((deliveryOption) => {
-                            return (
-                              <div key={deliveryOption.id} className="delivery-option" onClick={async ()=>{
-                                await axios.put(`/api/cart-items/${cartItem.productId}`, {
-                                  deliveryOptionId:deliveryOption.id
-                                })
-                                await loadCart();
-                              }}>
-                                <input type="radio" checked={deliveryOption.id === cartItem.deliveryOptionId}
-                                  className="delivery-option-input"
-                                  name={`delivery-option-${cartItem.productId}`} />
-                                <div>
-                                  <div className="delivery-option-date">
-                                    {dayjs(deliveryOption.estimatedDeliveryTimeMs).format('dddd, MMMM D')}
-                                  </div>
-                                  <div className="delivery-option-price">
-                                    {deliveryOption.priceCents <= 0 ? 'FREE Shipping' : `$${(deliveryOption.priceCents / 100).toFixed(2)} - Shipping`}
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })
-                        }
-                      </div>
-                    </div>
-                  </div>
+                  <EachCartItem key={cartItem.id} cartItem={cartItem} loadCart={loadCart} selectedDeliveryOption={selectedDeliveryOption} deliveryOption={deliveryOption}/>
                 )
               })
 
