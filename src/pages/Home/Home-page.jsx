@@ -8,7 +8,6 @@ import { EachProductContainer } from './Each-product-container'
 export function HomePage({ cart, loadCart }) {
   const [searchParams] = useSearchParams();
   const search = searchParams.get('search')
-  console.log(search);
   const [products, setProducts] = useState([]);
  
   useEffect(() => {

@@ -17,7 +17,6 @@ export function Tracking({cart}){
       trackingData();
     }, [orderId])
 
-    console.log(order);
 
     if(!order){
       return null;
